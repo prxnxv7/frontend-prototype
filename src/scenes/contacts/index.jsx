@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
-import "./index.css";
 import AuthContext from "../../context/AuthContext";
 import ProgressCircle from "../../components/progresscircles";
 
