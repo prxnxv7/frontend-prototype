@@ -24,7 +24,7 @@ const PersonProfile = () => {
 
   let getPerson = async () => {
     let response = await axios.get(
-      `http://127.0.0.1:8000/api/persons/${personId}/`,
+      `https://backend-prototype.azurewebsites.net/api/persons/${personId}/`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const PersonProfile = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/delete/${personId}/`,
+        `https://backend-prototype.azurewebsites.net/api/delete/${personId}/`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -20,7 +20,7 @@ const Transactions = () => {
   }, []);
 
   let gettransaction = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/transactions/", {
+    let response = await fetch("https://backend-prototype.azurewebsites.net/api/transactions/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const Transactions = () => {
   const handlePaid = async (transactionId, paidAmount) => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/transactions/${transactionId}/`,
+        `https://backend-prototype.azurewebsites.net/api/transactions/${transactionId}/`,
         {
           paid: parseFloat(paidAmount),
         },
@@ -78,7 +78,7 @@ const Transactions = () => {
   const handleIgnore = async (transactionId) => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/ignore/${transactionId}/`,
+        `https://backend-prototype.azurewebsites.net/api/ignore/${transactionId}/`,
         {},
         {
           headers: {

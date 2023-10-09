@@ -138,7 +138,7 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/persons/`,
+        `https://backend-prototype.azurewebsites.net/api/persons/`,
         formData,
         {
           headers: {
