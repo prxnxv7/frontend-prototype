@@ -20,7 +20,10 @@ const Transactions = () => {
   }, []);
 
   let gettransaction = async () => {
-    let response = await fetch("https://backend-prototype.azurewebsites.net/api/transactions/", {
+    let response = await fetch(
+      // "https://backend-prototype.azurewebsites.net/api/transactions/", 
+      "http://localhost:8000/api/transactions/",
+      {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +54,8 @@ const Transactions = () => {
   const handlePaid = async (transactionId, paidAmount) => {
     try {
       const response = await axios.patch(
-        `https://backend-prototype.azurewebsites.net/api/transactions/${transactionId}/`,
+        // `https://backend-prototype.azurewebsites.net/api/transactions/${transactionId}/`,
+        `http://localhost:8000/api/transactions/${transactionId}/`,
         {
           paid: parseFloat(paidAmount),
         },
@@ -78,7 +82,8 @@ const Transactions = () => {
   const handleIgnore = async (transactionId) => {
     try {
       const response = await axios.patch(
-        `https://backend-prototype.azurewebsites.net/api/ignore/${transactionId}/`,
+        // `https://backend-prototype.azurewebsites.net/api/ignore/${transactionId}/`,
+        `http://localhost:8000/api/ignore/${transactionId}`,
         {},
         {
           headers: {
@@ -216,12 +221,6 @@ const Transactions = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
-
-          "& .overdue-row": {
-            // Define styles for overdue rows
-            backgroundColor: colors.redAccent[500], // Red background for overdue transactions
-            color: "#fff", // Text color for overdue transactions
-          },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `#ffffff !important`,
             marginBottom: "20px",
@@ -235,9 +234,6 @@ const Transactions = () => {
           rows={transactions}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
-          getRowClassName={(params) =>
-            params.row.isOverdue ? "overdue-row" : ""
-          } // Apply the row class based on conditions
         />
       </Box>
     </Box>

@@ -21,7 +21,10 @@ const Dashboard = () => {
   }, []);
 
   let getData = async () => {
-    let response = await fetch("https://backend-prototype.azurewebsites.net/api/dashboard/", {
+    let response = await fetch(
+      // "https://backend-prototype.azurewebsites.net/api/dashboard/",
+      "http://localhost:8000/api/dashboard/",
+      {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

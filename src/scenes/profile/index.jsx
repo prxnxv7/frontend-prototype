@@ -47,7 +47,10 @@ const Contacts = () => {
   };
 
   let getprofile = async () => {
-    let response = await fetch("https://backend-prototype.azurewebsites.net/api/profile/", {
+    let response = await fetch(
+      // "https://backend-prototype.azurewebsites.net/api/profile/", 
+      "http://localhost:8000/api/profile/", 
+      {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -18,7 +18,6 @@ const checkoutSchema = yup.object().shape({
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
-  money_owed: yup.string().required("required"),
   time_period_given: yup.string().required("required"),
 });
 
@@ -41,90 +40,41 @@ const Form = () => {
 
   const handleInputChange = (e, values, setValues) => {
     const { name, value } = e.target;
-    const newValue = parseFloat(value);
 
-    clearTimeout(inputTimer);
-    inputTimer = setTimeout(() => {
-      if (!isNaN(value)) {
-        if (
-          name === "money_owed" &&
-          values.dues !== "" &&
-          values.amount_per_due !== ""
-        ) {
-          // Clear the other two fields if "money_owed" is modified
-          setValues({ ...values, dues: "", amount_per_due: "" });
-        } else if (
-          name === "dues" &&
-          values.money_owed !== "" &&
-          values.amount_per_due !== ""
-        ) {
-          // Clear the other two fields if "dues" is modified
-          setValues({ ...values, money_owed: "", amount_per_due: "" });
-        } else if (
-          name === "amount_per_due" &&
-          values.money_owed !== "" &&
-          values.dues !== ""
-        ) {
-          // Clear the other two fields if "amount_per_due" is modified
-          setValues({ ...values, money_owed: "", dues: "" });
-        } else {
-          if (name === "amount_per_due" && values.dues !== "") {
-            // Auto-calculate money_owed
-            const money_owed = value * parseFloat(values.dues);
-            setValues({
-              ...values,
-              money_owed: isNaN(money_owed) ? "" : money_owed.toFixed(2), // Round to 2 decimal places
-            });
-          } else if (name === "dues" && values.amount_per_due !== "") {
-            // Auto-calculate money_owed
-            const money_owed = value * parseFloat(values.amount_per_due);
-            setValues({
-              ...values,
-              money_owed: isNaN(money_owed) ? "" : money_owed.toFixed(2), // Round to 2 decimal places
-            });
-          } else if (name === "dues" && values.money_owed !== "") {
-            // Auto-calculate amount_per_due
-            const amount_per_due = values.money_owed / value;
-            setValues({
-              ...values,
-              amount_per_due: isNaN(amount_per_due)
-                ? ""
-                : amount_per_due.toFixed(2), // Round to 2 decimal places
-            });
-          } else if (name === "money_owed" && values.dues !== "") {
-            // Auto-calculate amount_per_due
-            const amount_per_due = value / values.dues;
-            setValues({
-              ...values,
-              amount_per_due: isNaN(amount_per_due)
-                ? ""
-                : amount_per_due.toFixed(2), // Round to 2 decimal places
-            });
-          } else if (name === "amount_per_due" && values.money_owed !== "") {
-            // Auto-calculate dues
-            const dues = values.money_owed / value;
-            setValues({
-              ...values,
-              dues: isNaN(dues) ? "" : dues.toFixed(2), // Round to 2 decimal places
-            });
-          } else if (name === "money_owed" && values.amount_per_due !== "") {
-            // Auto-calculate dues
-            const dues = value / values.amount_per_due;
-            setValues({
-              ...values,
-              dues: isNaN(dues) ? "" : dues.toFixed(2), // Round to 2 decimal places
-            });
-          }
+    // Parse values to float for calculations
+    const moneyOwed = parseFloat(values.money_owed) || 0;
+    const dues = parseFloat(values.dues) || 0;
+    const amountPerDue = parseFloat(values.amount_per_due) || 0;
+
+    let calculatedValue;
+
+    switch (name) {
+      case "money_owed":
+        // Calculate amount_per_due when money_owed and dues are filled
+        if (dues !== 0 && dues !== null) {
+          calculatedValue = moneyOwed / dues;
+          setValues({ ...values, amount_per_due: calculatedValue.toFixed(2) });
         }
-      } else {
-        // If the input is not a valid number, clear the other fields
-        setValues({
-          ...values,
-          [name]: "",
-        });
-      }
-    }, 1000);
+        break;
+      case "dues":
+        // Calculate money_owed when dues and amount_per_due are filled
+        if (amountPerDue !== 0 && amountPerDue !== null) {
+          calculatedValue = dues * amountPerDue;
+          setValues({ ...values, money_owed: calculatedValue.toFixed(2) });
+        }
+        break;
+      case "amount_per_due":
+        // Calculate dues when money_owed and amount_per_due are filled
+        if (moneyOwed !== 0 && moneyOwed !== null && amountPerDue !== 0 && amountPerDue !== null) {
+          calculatedValue = moneyOwed / amountPerDue;
+          setValues({ ...values, dues: calculatedValue.toFixed(2) });
+        }
+        break;
+      default:
+        break;
+    }
   };
+    
 
   const handleFormSubmit = async (values, { setSubmitting }) => {
     const formData = {
@@ -138,7 +88,8 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-        `https://backend-prototype.azurewebsites.net/api/persons/`,
+        // `https://backend-prototype.azurewebsites.net/api/persons/`,
+        `http://127.0.0.1:8000/api/persons/`,
         formData,
         {
           headers: {
@@ -211,15 +162,47 @@ const Form = () => {
                 variant="filled"
                 type="text"
                 label="Total Amount"
-                onBlur={handleBlur}
-                onChange={(e) => {
-                  handleChange(e);
+                onBlur={(e) => {
+                  handleBlur(e);
                   handleInputChange(e, values, setValues);
                 }}
+                onChange={handleChange}
                 value={values.money_owed}
                 name="money_owed"
                 error={!!touched.money_owed && !!errors.money_owed}
                 helperText={touched.money_owed && errors.money_owed}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Amount per Due"
+                onBlur={(e) => {
+                  handleBlur(e);
+                  handleInputChange(e, values, setValues);
+                }}
+                onChange={handleChange}
+                value={values.amount_per_due}
+                name="amount_per_due"
+                error={!!touched.amount_per_due && !!errors.amount_per_due}
+                helperText={touched.amount_per_due && errors.amount_per_due}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Dues"
+                onBlur={(e) => {
+                  handleBlur(e);
+                  handleInputChange(e, values, setValues);
+                }}
+                onChange={handleChange}
+                value={values.dues}
+                name="dues"
+                error={!!touched.dues && !!errors.dues}
+                helperText={touched.dues && errors.dues}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -237,38 +220,6 @@ const Form = () => {
                 helperText={
                   touched.time_period_given && errors.time_period_given
                 }
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Amount per Due"
-                onBlur={handleBlur}
-                onChange={(e) => {
-                  handleChange(e);
-                  handleInputChange(e, values, setValues);
-                }}
-                value={values.amount_per_due}
-                name="amount_per_due"
-                error={!!touched.amount_per_due && !!errors.amount_per_due}
-                helperText={touched.amount_per_due && errors.amount_per_due}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Dues"
-                onBlur={handleBlur}
-                onChange={(e) => {
-                  handleChange(e);
-                  handleInputChange(e, values, setValues);
-                }}
-                value={values.dues}
-                name="dues"
-                error={!!touched.dues && !!errors.dues}
-                helperText={touched.dues && errors.dues}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
