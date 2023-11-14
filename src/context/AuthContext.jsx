@@ -50,8 +50,8 @@ export const AuthProvider = ({children}) => {
     let updateToken = async ()=> {
 
         let response = await fetch(
-            // 'https://backend-prototype.azurewebsites.net/api/token/refresh/', 
-            'http://localhost:8000/api/token/refresh/',
+            'https://backend-prototype.azurewebsites.net/api/token/refresh/', 
+            // 'http://localhost:8000/api/token/refresh/',
             {
             method:'POST',
             headers:{
