@@ -17,8 +17,8 @@ export const AuthProvider = ({children}) => {
     let loginUser = async (e )=> {
         e.preventDefault()
         let response = await fetch(
-            // 'https://backend-prototype.azurewebsites.net/api/token/', 
-            'http://localhost:8000/api/token/', 
+            'https://backend-prototype.azurewebsites.net/api/token/', 
+            // 'http://localhost:8000/api/token/', 
             {
             method:'POST',
             headers:{
