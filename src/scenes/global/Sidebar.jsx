@@ -8,7 +8,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import pic from "../../annamalaiyaar.jpeg";
+import pic from "../../LOGO.jpeg";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -103,9 +103,9 @@ const Sidebar = () => {
                   Annamalaiyaar
                 </Typography>
                 <Typography variant="h5" color={colors.blueAccent[200]}>
-                  Auto consulting
+                  ASSOCIATES
                   <br />
-                  Chits & financing
+                  CHITS AND FINANCE
                 </Typography>
               </Box>
             </Box>

@@ -99,6 +99,7 @@ const Form = () => {
         }
       );
       setSubmitting(false);
+      window.location.reload();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -227,7 +228,9 @@ const Form = () => {
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ color: colors.primary[0], backgroundColor: "#a654f8" }}
+                sx={{ color: colors.primary[0], backgroundColor: "#a654f8",     '&:hover': {
+                  backgroundColor: "#a654f8",
+                },}}
               >
                 Create New Contact
               </Button>
