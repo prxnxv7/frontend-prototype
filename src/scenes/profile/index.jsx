@@ -34,6 +34,9 @@ const Contacts = () => {
               paddingBottom: "4px",
               paddingLeft: "5px",
               fontSize: "12px",
+              '&:hover': {
+                backgroundColor: "#a654f8",
+              }
             }}
           >
             <PersonAddAltIcon
