@@ -38,11 +38,13 @@ const Dashboard = () => {
       setTransactionnum(data.transaction_count);
       setTotal(data.total_payment_amount_today);
       setToday(data.payments_today);
-      setPending(data.transaction_data);
+      setPending(data.pending_data);
     } else if (response.statusText === "Unauthorized") {
       logoutUser();
     }
   };
+
+  const transactionsDoneForToday = today.length;
 
   return (
     <Box m="20px">
@@ -70,7 +72,7 @@ const Dashboard = () => {
             borderRadius="10px"
             margin="15px 0px 0px 15px"
           >
-            <ProgressCircle3 progress={(overdues)/(transactionnum)} text={transactionnum} />
+            <ProgressCircle3 progress={(transactionsDoneForToday)/(transactionnum)} text={transactionnum} />
             
           </Box>
           <Box
