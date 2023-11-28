@@ -22,8 +22,8 @@ const Dashboard = () => {
 
   let getData = async () => {
     let response = await fetch(
-      "https://backend-prototype.azurewebsites.net/api/dashboard/",
-      // "http://localhost:8000/api/dashboard/",
+      // "https://backend-prototype.azurewebsites.net/api/dashboard/",
+      "http://localhost:8000/api/dashboard/",
       {
       method: "GET",
       headers: {
@@ -45,6 +45,10 @@ const Dashboard = () => {
   };
 
   const transactionsDoneForToday = today.length;
+  const totalTransactionsToday = transactionnum;
+
+  // Calculate the progress ratio
+  const progressRatio = totalTransactionsToday > 0 ? transactionsDoneForToday / totalTransactionsToday : 0;
 
   return (
     <Box m="20px">
@@ -72,7 +76,7 @@ const Dashboard = () => {
             borderRadius="10px"
             margin="15px 0px 0px 15px"
           >
-            <ProgressCircle3 progress={(transactionsDoneForToday)/(transactionnum)} text={transactionnum} />
+            <ProgressCircle3 progress={progressRatio} text={totalTransactionsToday} />
             
           </Box>
           <Box

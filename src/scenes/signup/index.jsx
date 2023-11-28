@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -36,8 +34,8 @@ export default function SignUp() {
 
     try {
       const response = await axios.post(
-        "https://backend-prototype.azurewebsites.net/api/register/",
-        // "http://localhost:8000/api/register/",
+        // "https://backend-prototype.azurewebsites.net/api/register/",
+        "http://localhost:8000/api/register/",
         userData
       );
       if (response.status === 201) {
