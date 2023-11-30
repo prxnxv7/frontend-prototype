@@ -45,10 +45,11 @@ const Dashboard = () => {
   };
 
   const transactionsDoneForToday = today.length;
-  const totalTransactionsToday = transactionnum;
+  console.log(transactionsDoneForToday);
+  // const totalTransactionsToday = transactionnum;
 
   // Calculate the progress ratio
-  const progressRatio = totalTransactionsToday > 0 ? transactionsDoneForToday / totalTransactionsToday : 0;
+  // const progressRatio = totalTransactionsToday > 0 ? transactionsDoneForToday / totalTransactionsToday : 0;
 
   return (
     <Box m="20px">
@@ -76,7 +77,7 @@ const Dashboard = () => {
             borderRadius="10px"
             margin="15px 0px 0px 15px"
           >
-            <ProgressCircle3 progress={progressRatio} text={totalTransactionsToday} />
+            <ProgressCircle3 progress={transactionsDoneForToday} text={transactionsDoneForToday} />
             
           </Box>
           <Box
