@@ -22,15 +22,16 @@ const Dashboard = () => {
 
   let getData = async () => {
     let response = await fetch(
-      "https://backend-prototype.azurewebsites.net/api/dashboard/",
-      // "http://localhost:8000/api/dashboard/",
+      // "https://backend-prototype.azurewebsites.net/api/dashboard/",
+      "http://localhost:8000/api/dashboard/",
       {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    });
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
     let data = await response.json();
 
     if (response.status === 200) {
@@ -45,21 +46,33 @@ const Dashboard = () => {
   };
 
   const transactionsDoneForToday = today.length;
-  console.log(transactionsDoneForToday);
+  const transactionsPendingForToday = pending.length;
+  const totalTransactionsToday =
+    transactionsDoneForToday + transactionsPendingForToday;
+  console.log("today", transactionsDoneForToday);
+  console.log("pending", transactionsPendingForToday);
+  console.log("total", totalTransactionsToday);
   // const totalTransactionsToday = transactionnum;
 
   // Calculate the progress ratio
   // const progressRatio = totalTransactionsToday > 0 ? transactionsDoneForToday / totalTransactionsToday : 0;
+  const progressRatio =
+    transactionnum > 0 ? transactionsDoneForToday / totalTransactionsToday : 0;
+  console.log("Progress", progressRatio);
 
   return (
     <Box m="20px">
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" >
-        <Header title="DASHBOARD"  subtitle="Today's Summary"/>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="DASHBOARD" subtitle="Today's Summary" />
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box backgroundColor={colors.primary[0]} borderRadius="15px" height="70vh">
+      <Box
+        backgroundColor={colors.primary[0]}
+        borderRadius="15px"
+        height="70vh"
+      >
         <Box
           display="grid"
           gridTemplateColumns="repeat(9, 1fr)"
@@ -72,13 +85,23 @@ const Dashboard = () => {
             gridRow="span 2"
             backgroundColor={colors.primary[400]}
             display="flex"
-            alignItems="center"
-            justifyContent="center"
+            flexDirection="column"
             borderRadius="10px"
             margin="15px 0px 0px 15px"
           >
-            <ProgressCircle3 progress={transactionsDoneForToday} text={transactionsDoneForToday} />
-            
+            <Typography
+              color={colors.grey[100]}
+              variant="h3"
+              fontWeight="600"
+              margin="22px 0 25px 30px"
+              fontFamily="Montserrat"
+            >
+              Progress
+            </Typography>
+            <ProgressCircle3
+              progress={progressRatio * 100}
+              text={`${Math.round(progressRatio * 100)}%`}
+            />
           </Box>
           <Box
             gridColumn="span 3"
@@ -87,23 +110,24 @@ const Dashboard = () => {
             borderRadius="10px"
             margin="15px 0px 0px 15px"
           >
-            <Typography 
-              color={colors.grey[100]} 
-              variant="h3" 
+            <Typography
+              color={colors.grey[100]}
+              variant="h3"
               fontWeight="600"
               marginLeft="30px"
               marginTop="22px"
               fontFamily="Montserrat"
             >
-              Today's Transactions
+              Remaining Transactions
             </Typography>
             <Typography
               color="#FF05C8"
               variant="h2"
               fontWeight="600"
               sx={{
-                marginLeft:"30px",
-                marginTop:"15px" }}
+                marginLeft: "30px",
+                marginTop: "15px",
+              }}
             >
               {transactionnum}
             </Typography>
@@ -115,11 +139,12 @@ const Dashboard = () => {
             borderRadius="10px"
             margin="15px 15px 0px 15px"
           >
-            <Typography 
+            <Typography
               marginLeft="30px"
               marginTop="22px"
-              color={colors.grey[100]} 
-              variant="h3" fontWeight="600"
+              color={colors.grey[100]}
+              variant="h3"
+              fontWeight="600"
               fontFamily="Montserrat"
             >
               Over dues
@@ -129,8 +154,8 @@ const Dashboard = () => {
               variant="h2"
               fontWeight="600"
               sx={{
-                marginLeft:"30px",
-                marginTop:"15px" 
+                marginLeft: "30px",
+                marginTop: "15px",
               }}
             >
               {overdues}
@@ -160,7 +185,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 fontFamily="Montserrat"
               >
-                Paid Today
+                Paid
               </Typography>
             </Box>
             {today.map((now) => (
@@ -173,10 +198,7 @@ const Dashboard = () => {
                 p="15px"
               >
                 <Box color={colors.grey[100]}>
-                  <Typography
-                    variant="h4"
-                    fontWeight="400"
-                  >
+                  <Typography variant="h4" fontWeight="400">
                     {now.transaction_details.person_details.name}
                   </Typography>
                 </Box>
@@ -185,10 +207,7 @@ const Dashboard = () => {
                   p="5px 10px"
                   borderRadius="4px"
                 >
-                  <Typography
-                    variant="h5"
-                    fontWeight="400"
-                  >
+                  <Typography variant="h5" fontWeight="400">
                     ₹{now.paid_amount}
                   </Typography>
                 </Box>
@@ -217,7 +236,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 fontFamily="Montserrat"
               >
-                Today Pending
+                Pending
               </Typography>
             </Box>
             {pending.map((left) => (
@@ -230,22 +249,12 @@ const Dashboard = () => {
                 p="15px"
               >
                 <Box color={colors.grey[100]}>
-                  <Typography
-                    variant="h4"
-                    fontWeight="400"
-                  >
+                  <Typography variant="h4" fontWeight="400">
                     {left.person_details.name}
                   </Typography>
                 </Box>
-                <Box
-                  
-                  p="5px 10px"
-                  borderRadius="4px"
-                >
-                  <Typography
-                    variant="h5"
-                    fontWeight="400"
-                  >
+                <Box p="5px 10px" borderRadius="4px">
+                  <Typography variant="h5" fontWeight="400">
                     ₹{left.pending_amount}
                   </Typography>
                 </Box>
@@ -273,7 +282,7 @@ const Dashboard = () => {
                   color={colors.grey[100]}
                   fontFamily="Montserrat"
                 >
-                  Total Collection Today
+                  Total Collection
                 </Typography>
                 <Typography
                   mt="5px"

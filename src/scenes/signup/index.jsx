@@ -34,8 +34,8 @@ export default function SignUp() {
 
     try {
       const response = await axios.post(
-        "https://backend-prototype.azurewebsites.net/api/register/",
-        // "http://localhost:8000/api/register/",
+        // "https://backend-prototype.azurewebsites.net/api/register/",
+        "http://localhost:8000/api/register/",
         userData
       );
       if (response.status === 201) {

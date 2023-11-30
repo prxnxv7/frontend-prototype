@@ -5,16 +5,16 @@ import React from "react";
 const ProgressCircle3 = ({ progress, text, size = "165" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const angle = progress * 360;
+  const angle = progress * 3.6;
   let circleBackground = `
   radial-gradient(${colors.primary[400]} 55%, transparent 56%),
-  conic-gradient(transparent 0deg ${angle}deg, #FF05C8 ${angle}deg 360deg),
-  #E7D000`; // Define a variable for circle background
+  conic-gradient(transparent 0deg ${angle}deg, ${colors.primary[0]} ${angle}deg 360deg),
+  #FF05C8`; // Define a variable for circle background
 
   const circleStyles = {
     background: circleBackground,
     borderRadius: "50%",
-    // marginLeft: "50px",
+    marginLeft: "30%",
     width: `${size}px`,
     height: `${size}px`,
     position: "relative",
