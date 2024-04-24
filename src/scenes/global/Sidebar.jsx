@@ -8,7 +8,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import pic from "../../LOGO.jpeg";
+import pic from "../../logo.png";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -100,12 +100,12 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "25px 0 10px 0" }}
                 >
-                  Annamalaiyaar
+                  PayNoter
                 </Typography>
                 <Typography variant="h5" color={colors.blueAccent[200]}>
-                  ASSOCIATES
+                  Payment Notifier
                   <br />
-                  CHITS AND FINANCE
+                  Remind. Pay. Update
                 </Typography>
               </Box>
             </Box>
